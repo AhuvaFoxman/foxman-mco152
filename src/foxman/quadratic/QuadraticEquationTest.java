@@ -14,7 +14,7 @@ public class QuadraticEquationTest {
 		Assert.assertEquals(2.0, positiveX, 0.01);
 
 	}
-
+	@Test
 	public void testGetNegativeX() throws InvalidDataException {
 		QuadraticEquation e = new QuadraticEquation(1, 2, -8);
 		double negativeX = e.getNegativeX();

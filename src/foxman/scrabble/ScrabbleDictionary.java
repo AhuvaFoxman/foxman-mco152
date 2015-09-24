@@ -2,37 +2,28 @@ package foxman.scrabble;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class ScrabbleDictionary {
 
-	private ArrayList<String> dictionary;
+	private HashSet<String> dictionary;
 
-	public ScrabbleDictionary() throws FileNotFoundException{
-		this.dictionary = new ArrayList<String>();
+	public ScrabbleDictionary() throws FileNotFoundException {
+		this.dictionary = new HashSet<String>();
 
-		
-			Scanner input = new Scanner(new File("US.dic"));
+		Scanner input = new Scanner(new File("US.dic"));
 
-			while (input.hasNext()) {
-				this.dictionary.add(input.next());
-			}
-			input.close();
+		while (input.hasNext()) {
+			this.dictionary.add(input.next());
 
-		
+		}
 
-	}
+		input.close();
 
-	public ArrayList<String> getDictionary() {
-		return this.dictionary;
 	}
 
 	public boolean contains(String word) {
-		if (this.dictionary.contains(word)) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.dictionary.contains(word);
 	}
 }

@@ -1,21 +1,22 @@
 package foxman.scrabble;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
-import java.util.Scanner;
 
 public class ScrabbleDictionary {
 
 	private HashSet<String> dictionary;
 
-	public ScrabbleDictionary() throws FileNotFoundException {
+	public ScrabbleDictionary() throws IOException {
 		this.dictionary = new HashSet<String>();
 
-		Scanner input = new Scanner(new File("US.dic"));
+		BufferedReader input = new BufferedReader(new FileReader ("US.dic"));
 
-		while (input.hasNext()) {
-			this.dictionary.add(input.next());
+		String line;
+		while ((line = input.readLine()) != null) {
+			this.dictionary.add(line);
 
 		}
 

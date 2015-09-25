@@ -6,6 +6,16 @@ import org.junit.Test;
 public class QuadraticEquationTest {
 
 	@Test
+	public void testInvalidDataException() {
+		try {
+			new QuadraticEquation(0, 0, 0);
+			Assert.fail("Didn't throw exception.");
+		} catch (InvalidDataException e) {
+			//This is what it is expected to happen. The test should pass.
+		}
+	}
+
+	@Test
 	public void testGetPositiveX() throws InvalidDataException {
 
 		QuadraticEquation e = new QuadraticEquation(1, 2, -8);
@@ -14,6 +24,7 @@ public class QuadraticEquationTest {
 		Assert.assertEquals(2.0, positiveX, 0.01);
 
 	}
+
 	@Test
 	public void testGetNegativeX() throws InvalidDataException {
 		QuadraticEquation e = new QuadraticEquation(1, 2, -8);

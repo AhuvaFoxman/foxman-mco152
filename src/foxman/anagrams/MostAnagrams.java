@@ -1,21 +1,23 @@
 package foxman.anagrams;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Scanner;
+
 
 public class MostAnagrams {
 
-	public static void main(String[] args) throws FileNotFoundException {
-		Scanner file = new Scanner(new File("US.dic"));
+	public static void main(String[] args) throws IOException {
+		BufferedReader file = new BufferedReader(new FileReader("US.dic"));
 		HashMap<String, Integer> dictionary = new HashMap<String, Integer>();
 		ArrayList<String> dictArray = new ArrayList<String>();
 
-		while (file.hasNext()) {
-			dictArray.add(file.next());
+		String line;
+		while ((line = file.readLine()) != null) {
+			dictArray.add(line);
 		}
 		file.close();
 		char[] letters;

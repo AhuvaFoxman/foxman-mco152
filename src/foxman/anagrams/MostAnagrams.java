@@ -44,6 +44,8 @@ public class MostAnagrams {
 			}
 
 		}
+		
+		
 
 		// StringBuilder anagram1 = new StringBuilder();
 		ArrayList<String> anagram = new ArrayList<String>();

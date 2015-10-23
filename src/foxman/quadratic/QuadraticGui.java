@@ -1,6 +1,5 @@
 package foxman.quadratic;
 
-import java.awt.Button;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -65,7 +64,6 @@ public class QuadraticGui extends JFrame {
 					double c = Double.parseDouble(textThree.getText());
 					QuadraticEquation q = new QuadraticEquation(a, b, c);
 
-			
 					answer.setText("Positive X = " + q.getNegativeX()
 							+ " Negative X = " + q.getPositiveX());
 

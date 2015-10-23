@@ -42,7 +42,7 @@ public class TopTenLocations {
 
 		}
 
-		int largestValue = 0;
+		int largestValue;
 		String location = null;
 
 		// for the top 10 locations, print out the location and its value

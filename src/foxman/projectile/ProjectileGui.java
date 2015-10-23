@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class ProjectileGui extends JFrame {
+
 	private JLabel labelOne;
 	private JTextField textOne;
 	private JLabel labelTwo;

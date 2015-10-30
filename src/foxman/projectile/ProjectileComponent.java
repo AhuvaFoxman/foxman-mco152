@@ -1,6 +1,5 @@
 package foxman.projectile;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
@@ -20,14 +19,14 @@ public class ProjectileComponent extends JComponent {
 		double x = p.getX();
 		double y = p.getY();
 
-		for (int i = 1; i < 20; i++) {
+		for (double i = 0.0; i < 20; i += .1) {
 			p.setTime(i);
-			graphic.setColor(Color.MAGENTA);
-			graphic.draw(new Line2D.Double(x, getHeight() - y, p.getX(),
-					getHeight() - p.getY()));
-			
-			x = p.getX();
-			y = p.getY();
+			double x2 = p.getX();
+			double y2 = p.getY();
+			graphic.draw(new Line2D.Double(x, getHeight() - y, x2, getHeight() - y2));
+
+			x = x2;
+			y = y2;
 		}
 	}
 

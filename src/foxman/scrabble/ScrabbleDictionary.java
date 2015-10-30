@@ -7,6 +7,15 @@ import java.util.HashSet;
 
 public class ScrabbleDictionary {
 
+	private static ScrabbleDictionary singleton;
+	
+	public static ScrabbleDictionary getInstance() throws IOException{
+		if( singleton == null){
+			singleton = new ScrabbleDictionary();
+		}
+		return singleton;
+	}
+	
 	private HashSet<String> dictionary;
 
 	public ScrabbleDictionary() throws IOException {

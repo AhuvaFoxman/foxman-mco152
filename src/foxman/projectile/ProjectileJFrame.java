@@ -18,8 +18,6 @@ public class ProjectileJFrame extends JFrame{
 	Container container = getContentPane();
 	container.setLayout(layout);
 	
-	//put the smileComponent in the center because it expands
-	//need to specify a zone
 	container.add(new ProjectileComponent(), BorderLayout.CENTER);
 	
 	

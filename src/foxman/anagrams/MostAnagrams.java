@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-
 public class MostAnagrams {
 
 	public static void main(String[] args) throws IOException {
@@ -44,10 +43,7 @@ public class MostAnagrams {
 			}
 
 		}
-		
-		
 
-		// StringBuilder anagram1 = new StringBuilder();
 		ArrayList<String> anagram = new ArrayList<String>();
 		for (String word : dictArray) {
 			String unSorted = word;

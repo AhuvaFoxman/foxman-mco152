@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 public class SmileComponent extends JPanel{
 	
 	  private Point p = new Point(100, 100);
-
+	 
 	    public SmileComponent() {
 	        MouseAdapter mouseHandler = new MouseAdapter() {
 
@@ -29,6 +29,9 @@ public class SmileComponent extends JPanel{
 	    }
 	    
 	private int y = 50;
+	
+
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub

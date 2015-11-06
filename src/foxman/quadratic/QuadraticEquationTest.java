@@ -11,7 +11,8 @@ public class QuadraticEquationTest {
 			new QuadraticEquation(0, 0, 0);
 			Assert.fail("Didn't throw exception.");
 		} catch (InvalidDataException e) {
-			//This is what it is expected to happen. The test should pass.
+			//if invalid data was entered this is what should happen
+			//The test should pass.
 		}
 	}
 

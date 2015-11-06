@@ -3,12 +3,16 @@ package foxman.gui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public class SmileJFrame extends JFrame {
+public class SmileJFrame extends JFrame implements MouseListener, MouseMotionListener{
 
 	public SmileJFrame() {
 
@@ -24,6 +28,9 @@ public class SmileJFrame extends JFrame {
 		//need to specify a zone
 		container.add(new SmileComponent(), BorderLayout.CENTER);
 		
+		addMouseListener(this);
+
+		  addMouseMotionListener(this);
 		
 		
 	}
@@ -57,10 +64,84 @@ public class SmileJFrame extends JFrame {
              //   }
 		
 		new SmileJFrame().setVisible(true);
+		
 
 ;}
 		});
 	}
+
+
+
+
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		super.repaint();
+	}
+
+
+
+
+
+	@Override
+	public void mouseMoved(MouseEvent me) {
+		 Graphics g=getGraphics();
+
+		  g.drawOval(me.getX(), me.getY(), 30,30);
+		
+	}
+
+
+
+
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
 	
 	

@@ -8,6 +8,6 @@ public static void main(String args[]){
 		
 		final QuadraticGui frame = new QuadraticGui();
 		
-		frame.setVisible(true); //inorder to show the window
+		frame.setVisible(true); //in order to show the window
 	}
 }

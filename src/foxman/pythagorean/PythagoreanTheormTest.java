@@ -12,7 +12,7 @@ public class PythagoreanTheormTest {
 		try {
 			PythagoreanTheorm p = new PythagoreanTheorm();
 			p.setBC(13, 5);
-			Assert.fail("Didn't throw exception");
+			Assert.fail("Didn't throw exception");//do not want this to happen
 		} catch (InvalidDataException e) {
 			// expected to happen
 		}
@@ -24,7 +24,7 @@ public class PythagoreanTheormTest {
 		try{
 		PythagoreanTheorm p = new PythagoreanTheorm();
 		p.setAC(15, 9);
-		Assert.fail("Didn't throw exception.");
+		Assert.fail("Didn't throw exception."); //do not want this to happen
 		}
 		catch(InvalidDataException e){
 			//expected

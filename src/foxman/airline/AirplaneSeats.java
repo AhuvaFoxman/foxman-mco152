@@ -228,10 +228,6 @@ public class AirplaneSeats {
 		}
 	}
 
-	public static void main(String[] args) throws AlreadyReservedException, SeatOutOfBoundsException {
-		AirplaneSeats seats = new AirplaneSeats(3, 4);
-		seats.reserve("A1");
-		System.out.println(seats.toString());
-	}
+
 
 }

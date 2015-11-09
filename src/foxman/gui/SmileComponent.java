@@ -11,73 +11,57 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-public class SmileComponent extends JPanel{
-	
-	  private Point p = new Point(100, 100);
-	 
-	    public SmileComponent() {
-	        MouseAdapter mouseHandler = new MouseAdapter() {
+public class SmileComponent extends JPanel {
 
-	            @Override
-	            public void mouseMoved(MouseEvent e) {
-	                p = e.getPoint();
-	                repaint();
-	            }
+	private int y = 170;
 
-	        };
-	        addMouseMotionListener(mouseHandler);
-	    }
-	    
-	private int y = 50;
-	
-
+	public SmileComponent() {
+	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paintComponent(g);
-		
+
 		g.setColor(Color.yellow);
 		g.fillOval(210, 100, 300, 300);
-		
+
 		g.setColor(Color.BLUE);
 		g.fillOval(275, 175, 50, 50);
-		
+
 		g.setColor(Color.BLUE);
-		g.fillOval(375,175,50,50);
-		
+		g.fillOval(375, 175, 50, 50);
+
 		g.setColor(Color.GREEN);
-		g.fillOval(p.x =  284,p.y,25,25);
-		
+		g.fillOval(284, 175, 25, 25);
+
 		g.setColor(Color.GREEN);
-		g.fillOval(p.x = 384, p.y ,25,25);
+		g.fillOval(384, 175, 25, 25);
 		y++;
-		
-		if(y == 55){
-			y = 50;
+
+		if (y == 170) {
+			y = 175;
 		}
-		
+
 		try {
 			Thread.sleep(16);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		super.repaint();
 		g.setColor(Color.RED);
 		g.fillArc(260, 180, 200, 200, 180, 180);
-		
-		//make teeth
+
+		// make teeth
 		g.setColor(Color.white);
 		g.fillRect(335, 280, 15, 20);
-		
-		
+
 		g.setColor(Color.white);
 		g.fillRect(356, 280, 15, 20);
-	//	g.drawLine(0, 300, 600, 50);
-		
+		// g.drawLine(0, 300, 600, 50);
+
 	}
-	
 
 }

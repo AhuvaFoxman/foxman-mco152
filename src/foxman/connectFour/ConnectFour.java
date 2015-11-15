@@ -54,6 +54,9 @@ public class ConnectFour {
 		return this.currentPlayer;
 	}
 
+	public void setCurrentPlayer(Player player){
+		this.currentPlayer = player;
+	}
 	public String[][] getBoard() {
 		return this.board;
 	}

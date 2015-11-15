@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class AirplaneSeats {
 
-	private HashMap<String, Integer> seats;
+	private HashMap<String, Boolean> seats;
 	private int rows;
 	private int columns;
 
@@ -23,21 +23,19 @@ public class AirplaneSeats {
 	 */
 	public AirplaneSeats(int rows, int columns) {
 
+		this.seats = new HashMap<String, Boolean>();
+
 		this.rows = rows;
 		this.columns = columns;
-		String[] alphabet = new String[] { "A", "B", "C", "D", "E", "F", "G",
-				"H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
-				"T", "U", "V", "W", "X", "Y", "Z" };
-		String key;
-		Integer value = null;
-		this.seats = new HashMap<String, Integer>();
-		for (int i = 0; i < columns - 1; i++) {
-			key = alphabet[i];
 
-			for (int k = 1; k < rows; k++) {
-				value = k;
+		for (int row = 0; row < rows; row++) {
+
+			for (int col = 65; col < 65 + columns; col++) {
+				StringBuilder seat = new StringBuilder();
+				seat.append(String.valueOf((char) col) + (row + 1));
+				seats.put(seat.toString(), false);
 			}
-			seats.put(key, value);
+
 		}
 
 	}
@@ -54,27 +52,15 @@ public class AirplaneSeats {
 	 */
 	public void reserve(String seatName) throws AlreadyReservedException,
 			SeatOutOfBoundsException {
-		String[] seat = new String[1];
-		seatName.split("[A-Z]*");
 
-		String key;
-		Integer value;
-		if (seat[0].matches("[A-Z]*")) {
-			key = seat[0];
-			value = Integer.parseInt(seat[1]);
-
-			for (Map.Entry<String, Integer> entry : seats.entrySet()) {
-				if ((entry.getKey() == key) && (entry.getValue() == value)) {
-					// then it is in the hashmap and could be removed
-					seats.remove(key, value); // remove it from the Hashmap once
-												// it is reserved
-
-				}
-			}
-			// if it didnt find it in the hashmap, then throw an exception
-			if (!(seats.containsKey(key) && !(seats.containsValue(value)))) {
+		if (seats.containsKey(seatName)) {
+			if (seats.get(seatName) == false) {
+				seats.put(seatName, true);
+			} else {
 				throw new AlreadyReservedException();
 			}
+		} else {
+			throw new SeatOutOfBoundsException();
 		}
 
 	}
@@ -86,20 +72,7 @@ public class AirplaneSeats {
 	 * @return true if the seat has been reserved, otherwise false.
 	 */
 	public boolean isReserved(String seatName) {
-		String[] seat = new String[1];
-		seatName.split("[A-Z]*");
-
-		String key = null;
-		Integer value = null;
-		if (seat[0].matches("[A-Z]*")) {
-			key = seat[0];
-			value = Integer.parseInt(seat[1]);
-		}
-		if (!(seats.containsKey(key) && !(seats.containsValue(value)))) {
-			return true;
-		} else {
-			return false;
-		}
+		return (seats.get(seatName));
 
 	}
 
@@ -137,32 +110,36 @@ public class AirplaneSeats {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		String[] alphabet = new String[] { "A", "B", "C", "D", "E", "F", "G",
-				"H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
-				"T", "U", "V", "W", "X", "Y", "Z" };
 
-		for (int k = 0; k < columns - 1; k++) {
-			builder.append(" " + alphabet[k]);
+		int countRows = 1;
+		int countColumns = 0;
+		builder.append("  ");
+		for (int col = 65; col < 65 + this.columns; col++) {
+			builder.append(String.valueOf((char) col));
 		}
-		String key = null;
-		Integer value = null;
-		for (int i = 1; i < rows; i++) {
-			value = i;
-			builder.append("\n" + i + " ");
+		builder.append("\n");
+		builder.append("1 ");
 
-			for (int k = 0; k < columns - 1; k++) {
-				key = alphabet[k];
+		for (Map.Entry<String, Boolean> entry : seats.entrySet()) {
 
-				if (!(seats.containsKey(key)) && !(seats.containsValue(value))) {
-					builder.append("# ");
-				} else {
-					builder.append("o ");
-				}
+			if (countColumns == this.columns) {
+				countRows++;
+				builder.append("\n");
+				builder.append(countRows + " ");
+				countColumns = 0; // reset the columns to zero
 			}
-			builder.append("\n");
+
+			if (entry.getValue()) {
+				builder.append("#");
+			} else {
+				builder.append("o");
+			}
+			countColumns++;
 		}
+		builder.append("\n");
 
 		return builder.toString();
+
 	}
 
 	/**
@@ -183,51 +160,70 @@ public class AirplaneSeats {
 	public ArrayList<String> reserveGroup(int numberOfSeatsTogether)
 			throws NotEnoughSeatsException, AlreadyReservedException,
 			SeatOutOfBoundsException {
-		String[] alphabet = new String[] { "A", "B", "C", "D", "E", "F", "G",
-				"H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
-				"T", "U", "V", "W", "X", "Y", "Z" };
 
-		ArrayList<String> seatsInARow = new ArrayList<String>();
+		ArrayList<String> seatsTogether = new ArrayList<String>();
 
-		StringBuilder builder = new StringBuilder();
-		String key = null;
-		Integer value = null;
-		int count = 0;
-
-		for (int k = 0; k < columns - 1; k++) {
-			key = alphabet[k];
-
-			for (int i = 1; i < rows; i++) {
-				value = i;
-				if ((seats.get(key) != null) && (seats.get(key) == value)) {
-
-					count++;
-				}
-
-			}
-			if (count >= numberOfSeatsTogether) {
-				builder.append(key + String.valueOf(value));
-				reserve(builder.toString());
-				seatsInARow.add(key + String.valueOf(value));
-			} else {
-				throw new AlreadyReservedException();
-			}
+		// if they request seats together which are more than rows, throw
+		// NotEnoughSeatsException
+		if (numberOfSeatsTogether > this.columns) {
+			throw new NotEnoughSeatsException();
 		}
 
-		return seatsInARow;
+		int seatsAvailable = 0;
+
+		for (int row = 0; row < this.rows; row++) {
+			seatsAvailable = 0;
+			for (int col = 65; col < 65 + this.columns; col++) {
+				StringBuilder seat = new StringBuilder();
+				seat.append(String.valueOf((char) col) + (row + 1));
+				
+				if (seats.get(seat.toString()) == false) {
+					seatsTogether.add(seat.toString());
+					seatsAvailable++;
+				} else {
+					break;
+				}
+
+			} //end inner
+			
+			if (seatsAvailable == numberOfSeatsTogether) {
+				for (String reservedSeat : seatsTogether) {
+					reserve(reservedSeat);
+				}
+
+			return seatsTogether;
+		}
+		}//end outer
+		
+		
+		
+
+		throw new NotEnoughSeatsException();
+
 	}
 
 	/**
 	 * @return true if the plane is full, otherwise false.
 	 */
 	public boolean isPlaneFull() {
-		if (seats.size() == 0) {
-			return true;
-		} else {
-			return false;
+		boolean full = true;
+		for (Map.Entry<String, Boolean> entry : seats.entrySet()) {
+			if (entry.getValue() == false) {
+				full = false;
+				return full;
+			}
 		}
+
+		return full;
+
 	}
 
-
-
+	public static void main(String[] args) throws AlreadyReservedException,
+			SeatOutOfBoundsException, NotEnoughSeatsException {
+		AirplaneSeats seats = new AirplaneSeats(3, 4);
+		seats.reserve("A1");
+		seats.reserveGroup(4);
+		System.out.println(seats.seats);
+		System.out.println(seats.toString());
+	}
 }

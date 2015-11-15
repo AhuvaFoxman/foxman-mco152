@@ -18,7 +18,6 @@ public class ConnectFourJFrame extends JFrame {
 	private JButton[] buttons = new JButton[7];
 	private JLabel[][] labels;
 	private ConnectFour connectFour;
-	
 
 	public ConnectFourJFrame() {
 
@@ -27,10 +26,9 @@ public class ConnectFourJFrame extends JFrame {
 		this.connectFour = new ConnectFour();
 		this.buttons = new JButton[7];
 		this.labels = new JLabel[6][7];
-		
 
 		setTitle("Connect Four");
-		setResizable(false);
+		setResizable(false); // wont allow the user to resize the board
 
 		setSize(700, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,13 +37,10 @@ public class ConnectFourJFrame extends JFrame {
 		Container container = getContentPane();
 
 		container.setLayout(layout);
-		ImageIcon imageOne = new ImageIcon("./RedCircle.png");
-		ImageIcon imageTwo = new ImageIcon("./YellowCircle.png");
+
 		ImageIcon arrow = new ImageIcon("./Arrow.png");
 		ImageIcon thumbsUp = new ImageIcon("./ThumbsUp.png");
 		ImageIcon tieGame = new ImageIcon("./TieGame");
-		//JButton restart = new JButton("Restart");
-		//container.add(restart);
 
 		for (int i = 0; i < buttons.length; i++) {
 			container.add(buttons[i] = new JButton());
@@ -68,14 +63,15 @@ public class ConnectFourJFrame extends JFrame {
 					}
 
 					if (!exceptionThrown) {
-						if (connectFour.getPlayerTurn().getColor() == "RED") {
-							labels[row][count].setIcon(imageOne);
+						setIcon(row, count);
 
-						} else if (connectFour.getPlayerTurn().getColor() == "YELLOW") {
-							labels[row][count].setIcon(imageTwo);
-
-						}
 					}
+
+					else {
+						connectFour.changeTurn(connectFour.getPlayerTurn());
+						setIcon(row, count);
+					}
+
 					boolean winner = connectFour.checkBoard();
 					boolean isFull = false;
 
@@ -84,7 +80,7 @@ public class ConnectFourJFrame extends JFrame {
 						int playAgain = JOptionPane
 								.showConfirmDialog(
 										null,
-										connectFour.getPlayerTurn().getName()
+										connectFour.getPlayerTurn().getColor()
 												+ " won! \nDo you want to play again? ",
 										"Connect Four",
 										JOptionPane.YES_NO_OPTION,
@@ -92,12 +88,10 @@ public class ConnectFourJFrame extends JFrame {
 						if (playAgain == JOptionPane.NO_OPTION) {
 							JOptionPane.showMessageDialog(null,
 									"Goodbye! Thanks for playing");
-							for(int i = 0; i < buttons.length; i++){
-								for (ActionListener a : buttons[i].getActionListeners()) {
-									buttons[i].removeActionListener(a);
-								}
-							}
+							turnOff();
+
 						} else {
+							turnOff();
 							new ConnectFourJFrame().setVisible(true);
 						}
 
@@ -105,7 +99,7 @@ public class ConnectFourJFrame extends JFrame {
 					if (winner == false) {
 						isFull = connectFour.checkFull(); // draw
 						if (isFull) {
-							JOptionPane.showMessageDialog(null, "Tie Game");
+							JOptionPane.showMessageDialog(null, "Tie Game!");
 							JOptionPane.showConfirmDialog(null,
 									"Do you want to play again? ",
 									"Connect Four", JOptionPane.YES_NO_OPTION,
@@ -113,7 +107,9 @@ public class ConnectFourJFrame extends JFrame {
 							if (playAgain == JOptionPane.NO_OPTION) {
 								JOptionPane.showMessageDialog(null,
 										"Goodbye! Thanks for playing");
+								turnOff();
 							} else {
+								turnOff();
 								new ConnectFourJFrame().setVisible(true);
 							}
 
@@ -129,21 +125,38 @@ public class ConnectFourJFrame extends JFrame {
 
 		}
 
-		// ImageIcon whiteCircle = new ImageIcon("./WhiteCircle.png");
-
 		for (int row = 0; row < labels.length; row++) {
 			for (int col = 0; col < labels[row].length; col++) {
 				labels[row][col] = new JLabel();
 				labels[row][col].setBackground(Color.BLACK);
 				labels[row][col].setOpaque(true);
-				// labels[row][col].setIcon(whiteCircle);
 				labels[row][col].setBorder(new LineBorder(Color.BLUE, 3));
 				add(labels[row][col]);
 
 			}
 		}
-		
-		
+
+	}
+
+	public void turnOff() {
+		for (int i = 0; i < buttons.length; i++) {
+			for (ActionListener a : buttons[i].getActionListeners()) {
+				buttons[i].removeActionListener(a);
+			}
+		}
+
+	}
+
+	public void setIcon(int row, int column) {
+		ImageIcon imageOne = new ImageIcon("./RedCircle.png");
+		ImageIcon imageTwo = new ImageIcon("./YellowCircle.png");
+		if (connectFour.getPlayerTurn().getColor() == "RED") {
+			labels[row][column].setIcon(imageOne);
+
+		} else if (connectFour.getPlayerTurn().getColor() == "YELLOW") {
+			labels[row][column].setIcon(imageTwo);
+
+		}
 
 	}
 

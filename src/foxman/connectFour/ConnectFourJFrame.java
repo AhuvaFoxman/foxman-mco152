@@ -1,16 +1,21 @@
 package foxman.connectFour;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 public class ConnectFourJFrame extends JFrame {
@@ -18,32 +23,49 @@ public class ConnectFourJFrame extends JFrame {
 	private JButton[] buttons = new JButton[7];
 	private JLabel[][] labels;
 	private ConnectFour connectFour;
+	ImageIcon arrow;
+	ImageIcon thumbsUp;
+	ImageIcon tieGame;
+	ImageIcon goodBye;
+	ImageIcon whiteCircle;
 
 	public ConnectFourJFrame() {
 
-		int playAgain = 0;
+		// all the images in the game
+		this.arrow = new ImageIcon("./Arrow.png");
+		this.thumbsUp = new ImageIcon("./ThumbsUp.png");
+		this.tieGame = new ImageIcon("./TieGame.png");
+		this.goodBye = new ImageIcon("./goodBye.png");
+		this.whiteCircle = new ImageIcon("./WhiteCircle.png");
 
 		this.connectFour = new ConnectFour();
 		this.buttons = new JButton[7];
 		this.labels = new JLabel[6][7];
 
-		setTitle("Connect Four");
+		setTitle("CONNECT FOUR");
 		setResizable(false); // wont allow the user to resize the board
 
 		setSize(700, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		// set the Layout of the JFrame
+		setLayout(new BorderLayout());
+
+		// set the layout of the center panel
 		GridLayout layout = new GridLayout(7, 6);
-		Container container = getContentPane();
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(layout);
+		// add it to the center
+		add(mainPanel, BorderLayout.CENTER);
 
-		container.setLayout(layout);
-
-		ImageIcon arrow = new ImageIcon("./Arrow.png");
-		ImageIcon thumbsUp = new ImageIcon("./ThumbsUp.png");
-		ImageIcon tieGame = new ImageIcon("./TieGame");
+		// make a JPanel to hold a restartButton
+		JPanel restart = new JPanel();
+		restart.setLayout(new BorderLayout());
+		add(restart, BorderLayout.NORTH); // add to the top
 
 		for (int i = 0; i < buttons.length; i++) {
-			container.add(buttons[i] = new JButton());
+
+			mainPanel.add(buttons[i] = new JButton());
 			buttons[i].setIcon(arrow);
 			int count = i;
 			buttons[i].addActionListener(new ActionListener() {
@@ -63,11 +85,13 @@ public class ConnectFourJFrame extends JFrame {
 					}
 
 					if (!exceptionThrown) {
+
 						setIcon(row, count);
 
 					}
 
 					else {
+
 						connectFour.changeTurn(connectFour.getPlayerTurn());
 						setIcon(row, count);
 					}
@@ -75,6 +99,7 @@ public class ConnectFourJFrame extends JFrame {
 					boolean winner = connectFour.checkBoard();
 					boolean isFull = false;
 
+					// if there is a winner..
 					if (winner == true) {
 
 						int playAgain = JOptionPane
@@ -87,34 +112,43 @@ public class ConnectFourJFrame extends JFrame {
 										JOptionPane.PLAIN_MESSAGE, thumbsUp);
 						if (playAgain == JOptionPane.NO_OPTION) {
 							JOptionPane.showMessageDialog(null,
-									"Goodbye! Thanks for playing");
-							turnOff();
+									"Goodbye! Thanks for playing",
+									"Connect Four", JOptionPane.PLAIN_MESSAGE,
+									goodBye);
+							dispose();
 
-						} else {
-							turnOff();
+						} else { // if the user wants to play again
+							dispose();
 							new ConnectFourJFrame().setVisible(true);
 						}
 
 					}
+					// if there is no winner yet
 					if (winner == false) {
-						isFull = connectFour.checkFull(); // draw
-						if (isFull) {
-							JOptionPane.showMessageDialog(null, "Tie Game!");
-							JOptionPane.showConfirmDialog(null,
-									"Do you want to play again? ",
+						// check if there is a draw
+						isFull = connectFour.checkFull();
+						// if it is not a draw, change the player's turn
+						if (!isFull) {
+							connectFour.changeTurn(connectFour.getPlayerTurn());
+						} else { // draw
+							int playAgain = JOptionPane.showConfirmDialog(null,
+									"Tie Game! \nDo you want to play again?",
 									"Connect Four", JOptionPane.YES_NO_OPTION,
 									JOptionPane.PLAIN_MESSAGE, tieGame);
+
 							if (playAgain == JOptionPane.NO_OPTION) {
 								JOptionPane.showMessageDialog(null,
-										"Goodbye! Thanks for playing");
-								turnOff();
+										"Goodbye! Thanks for playing!",
+										"Connect Four",
+										JOptionPane.PLAIN_MESSAGE, goodBye);
+								dispose();
+
 							} else {
-								turnOff();
-								new ConnectFourJFrame().setVisible(true);
+								dispose(); // close the board
+								new ConnectFourJFrame().setVisible(true); // reopen
+																			// one
 							}
 
-						} else {
-							connectFour.changeTurn(connectFour.getPlayerTurn());
 						}
 
 					}
@@ -128,32 +162,47 @@ public class ConnectFourJFrame extends JFrame {
 		for (int row = 0; row < labels.length; row++) {
 			for (int col = 0; col < labels[row].length; col++) {
 				labels[row][col] = new JLabel();
-				labels[row][col].setBackground(Color.BLACK);
+				labels[row][col].setIcon(whiteCircle);
 				labels[row][col].setOpaque(true);
-				labels[row][col].setBorder(new LineBorder(Color.BLUE, 3));
-				add(labels[row][col]);
+				mainPanel.add(labels[row][col]);
 
 			}
 		}
 
-	}
+		// if the user wants to restart the game in middle
+		JButton restartButton = new JButton("Restart Game");
 
-	public void turnOff() {
-		for (int i = 0; i < buttons.length; i++) {
-			for (ActionListener a : buttons[i].getActionListeners()) {
-				buttons[i].removeActionListener(a);
+		restartButton.setBackground(Color.GREEN);
+		restartButton.setForeground(Color.WHITE);
+		restartButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+		restartButton.setOpaque(true);
+		restart.add(restartButton);
+		restartButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				new ConnectFourJFrame().setVisible(true);
+				;
 			}
+
 		}
 
+		);
+
 	}
 
-	public void setIcon(int row, int column) {
-		ImageIcon imageOne = new ImageIcon("./RedCircle.png");
-		ImageIcon imageTwo = new ImageIcon("./YellowCircle.png");
-		if (connectFour.getPlayerTurn().getColor() == "RED") {
+	private void setIcon(int row, int column) {
+		ImageIcon imageOne = new ImageIcon("./RedCircle2.png");
+		ImageIcon imageTwo = new ImageIcon("./YellowCircle2.png");
+		String color = connectFour.getPlayerTurn().getColor();
+
+		if (color == "RED") {
+
+			setTitle("CONNECT FOUR  Player Yellow's Turn");
 			labels[row][column].setIcon(imageOne);
 
-		} else if (connectFour.getPlayerTurn().getColor() == "YELLOW") {
+		} else if (color == "YELLOW") {
+			setTitle("CONNECT FOUR  Player Red's Turn");
 			labels[row][column].setIcon(imageTwo);
 
 		}

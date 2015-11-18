@@ -54,20 +54,22 @@ public class ConnectFour {
 		return this.currentPlayer;
 	}
 
-	public void setCurrentPlayer(Player player){
+	public void setCurrentPlayer(Player player) {
 		this.currentPlayer = player;
 	}
-	public String[][] getBoard() {
-		return this.board;
+
+	public String getBoard() {
+		// so won't give access to the array
+		return this.board.toString();
 	}
 
 	public boolean checkBoard() {
 
 		boolean win = false;
-		// check horizontal
 
 		int row;
 		int col;
+		// check horizontal
 		for (row = 0; row < 6; row++) {
 
 			for (col = 0; col < 4; col++) {
@@ -110,7 +112,7 @@ public class ConnectFour {
 		}
 
 		// check a negative slope diagonally
-		// could be a win
+
 		for (row = 0; row < 3; row++) {
 
 			for (col = 0; col < 4; col++) {

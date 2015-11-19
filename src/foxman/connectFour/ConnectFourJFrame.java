@@ -192,8 +192,8 @@ public class ConnectFourJFrame extends JFrame {
 	}
 
 	private void setIcon(int row, int column) {
-		ImageIcon imageOne = new ImageIcon("./RedCircle2.png");
-		ImageIcon imageTwo = new ImageIcon("./YellowCircle2.png");
+		ImageIcon imageOne = new ImageIcon("./RedCircle.png");
+		ImageIcon imageTwo = new ImageIcon("./YellowCircle.png");
 		String color = connectFour.getPlayerTurn().getColor();
 
 		if (color == "RED") {

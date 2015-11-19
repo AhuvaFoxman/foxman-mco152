@@ -23,11 +23,13 @@ public class ConnectFourJFrame extends JFrame {
 	private JButton[] buttons = new JButton[7];
 	private JLabel[][] labels;
 	private ConnectFour connectFour;
-	ImageIcon arrow;
-	ImageIcon thumbsUp;
-	ImageIcon tieGame;
-	ImageIcon goodBye;
-	ImageIcon whiteCircle;
+	private ImageIcon arrow;
+	private ImageIcon thumbsUp;
+	private ImageIcon tieGame;
+	private ImageIcon goodBye;
+	private ImageIcon whiteCircle;
+	private ImageIcon redCircle;
+	private ImageIcon yellowCircle;
 
 	public ConnectFourJFrame() {
 
@@ -37,6 +39,8 @@ public class ConnectFourJFrame extends JFrame {
 		this.tieGame = new ImageIcon("./TieGame.png");
 		this.goodBye = new ImageIcon("./goodBye.png");
 		this.whiteCircle = new ImageIcon("./WhiteCircle.png");
+		this.redCircle = new ImageIcon("./RedCircle.png");
+		this.yellowCircle = new ImageIcon("./YellowCircle.png");
 
 		this.connectFour = new ConnectFour();
 		this.buttons = new JButton[7];
@@ -192,18 +196,17 @@ public class ConnectFourJFrame extends JFrame {
 	}
 
 	private void setIcon(int row, int column) {
-		ImageIcon imageOne = new ImageIcon("./RedCircle.png");
-		ImageIcon imageTwo = new ImageIcon("./YellowCircle.png");
+		
 		String color = connectFour.getPlayerTurn().getColor();
 
 		if (color == "RED") {
 
 			setTitle("CONNECT FOUR  Player Yellow's Turn");
-			labels[row][column].setIcon(imageOne);
+			labels[row][column].setIcon(redCircle);
 
 		} else if (color == "YELLOW") {
 			setTitle("CONNECT FOUR  Player Red's Turn");
-			labels[row][column].setIcon(imageTwo);
+			labels[row][column].setIcon(yellowCircle);
 
 		}
 

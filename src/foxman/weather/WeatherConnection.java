@@ -72,5 +72,11 @@ public class WeatherConnection {
 		return icon;
 
 	}
+	
+	
+	public String getName(){
+		return currentWeather.getName();
+		
+	}
 
 }

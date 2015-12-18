@@ -1,4 +1,4 @@
-package foxman.weather;
+package foxman.weatherSixteen;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -14,28 +14,16 @@ import javax.swing.ImageIcon;
 
 import com.google.gson.Gson;
 
-public class WeatherConnection {
-	private String zipCode;
+public class WeatherURLConnection {
 
 	private CurrentWeather currentWeather;
+	private List[] list;
+	private City city;
 
-	public WeatherConnection(String zip) throws InvalidZipException {
-		this.zipCode = zip;
+	public List[] getList() throws IOException {
 
-		if (zipCode.length() != 5) {
-			throw new InvalidZipException();
-		}
-		currentWeather = new CurrentWeather();
-
-	}
-
-	public Weather[] getWeather() throws IOException {
-
-		StringBuilder builder = new StringBuilder();
-		builder.append("http://api.openweathermap.org/data/2.5/weather?zip=");
-		builder.append(zipCode);
-		builder.append(",us&appid=2de143494c0b295cca9337e1e96b00e0&units=imperial");
-		URL url = new URL(builder.toString());
+		URL url = new URL(
+				"http://api.openweathermap.org/data/2.5/forecast/daily?q=Inwood&mode=json&units=Imperial&cnt=16&appid=ca1d966caacad3ba9ed500104b1b3c75");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
 		java.io.InputStream in = connection.getInputStream();
@@ -44,21 +32,23 @@ public class WeatherConnection {
 		final Gson gson = new Gson();
 
 		this.currentWeather = gson.fromJson(reader, CurrentWeather.class);
-		Weather[] weather = this.currentWeather.getWeather();
-		return weather;
+
+		this.list = this.currentWeather.getList();
+
+		return list;
 
 	}
 
-	public Main getMain() {
-		Main main = currentWeather.getMain();
-		return main;
+	public City getCity() {
+		this.city = this.currentWeather.getCity();
+		return city;
 	}
 
-	public ImageIcon getImageIcon() throws IOException {
-
+	public ImageIcon getIcon() throws IOException {
 		ImageIcon icon;
-		Weather[] weatherArray = getWeather();
-		String imageLink = weatherArray[0].getIcon();
+		Weather[] weather = this.list[0].getWeather();
+		String imageLink = weather[0].getIcon();
+		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("http://openweathermap.org/img/w/");
 		buffer.append(imageLink);
@@ -70,11 +60,6 @@ public class WeatherConnection {
 		icon = new ImageIcon(new ImageIcon(image).getImage().getScaledInstance(
 				125, 125, Image.SCALE_DEFAULT));
 		return icon;
-
-	}
-
-	public String getName() {
-		return currentWeather.getName();
 
 	}
 

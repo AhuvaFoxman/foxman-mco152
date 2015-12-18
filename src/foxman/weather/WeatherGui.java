@@ -101,7 +101,8 @@ public class WeatherGui extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				WeatherThread thread = null;
 			try { 
-				thread = new WeatherThread(text.getText(), text, button,temp,desc,
+					thread = new WeatherThread(text.getText(), text, button,
+							temp, desc,
 						humidity,pressure,place,iconLabel,icon);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

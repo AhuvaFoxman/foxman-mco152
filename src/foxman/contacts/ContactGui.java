@@ -26,8 +26,6 @@ import foxman.weather.WeatherThread;
 public class ContactGui extends JFrame {
 
 	private JList<String> list;
-	private JButton button;
-	private JFrame detailFrame;
 	private ContactThread thread;
 	private CurrentContactsList contacts;
 
@@ -38,44 +36,26 @@ public class ContactGui extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		Container container = getContentPane();
-		setLayout(new BorderLayout());
+		container.setLayout(new BorderLayout());
 
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, 2));
 
-		button = new JButton("View Contacts:");
-		button.setBackground(Color.YELLOW);
-		button.setForeground(Color.RED);
-
-		panel.add(button);
-		add(panel, BorderLayout.NORTH);
-
-		DefaultListModel dlm = new DefaultListModel();
-
-		list = new JList<String>(dlm);
+		list = new JList<String>();
 		add(list, BorderLayout.CENTER);
 
 		this.thread = new ContactThread(list);
 
-		button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-				thread.start();
-			}
-		});
+		thread.start();
 
 		MouseListener mouseListener = new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 
-					for (Contact c : contacts) {
-						if (list.getSelectedValue() == c.getName()) {
-							new ContactDetailsJFrame(c).setVisible(true);
-						}
-					}
+					int index = list.locationToIndex(e.getPoint());
+					CurrentContactsList contacts = thread.getContacts();
+					new ContactDetailsJFrame(contacts.get(index))
+							.setVisible(true);
+
 				}
 			}
 

@@ -21,7 +21,7 @@ public class ContactDetailsJFrame extends JFrame {
 
 		setTitle("CONTACT DETAILS");
 		setSize(500, 400);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		Container container = getContentPane();
 		setLayout((new BoxLayout(container, BoxLayout.Y_AXIS)));

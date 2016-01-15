@@ -53,6 +53,10 @@ public class ContactThread extends Thread {
 		addDataToList();
 	}
 
+	public CurrentContactsList getContacts(){
+		return this.contacts;
+	}
+	
 	public void addDataToList() {
 		String[] array = new String[contacts.size()];
 
